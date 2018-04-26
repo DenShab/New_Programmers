@@ -34,7 +34,7 @@ public class ProgrammerAgent extends Agent {
             price = Integer.parseInt((String) args[1]);
             abitursNumber = Integer.parseInt((String) args[2]);
         }
-        System.out.println("Агент-Программист " + GetAgentName() + " готова к выполению задач" + "\n" +
+        System.out.println("Агент-Программист " + GetAgentName() + " готов к выполению задач" + "\n" +
         "Свойство 1 " + minmark + "\n" +
         "Свойство 2 " + price + "\n" +
         "Свойство 3 " + abitursNumber);
