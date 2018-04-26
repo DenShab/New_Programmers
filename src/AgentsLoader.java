@@ -48,17 +48,17 @@ public class AgentsLoader extends Agent {
         String[] InputArgs;
 		Object[] args;
         switch (splitted[0]) {
-            case "Abitur":        
+            case "Task":        
 				InputArgs = splitted[1].split(",");
                 String agentName = InputArgs[0];
                 String Mark = InputArgs[1];
 
                 args = new Object[] { Mark };
-                //System.out.println("Создание абитуриента"+","+agentName+","+Mark);
+                //System.out.println("Создание адачи"+","+agentName+","+Mark);
                 return getContainerController()
-					.createNewAgent(agentName, "AbiturAgent", args);
+					.createNewAgent(agentName, "TaskAgent", args);
 
-            case "specialty":
+            case "Programmer":
 				InputArgs = splitted[1].split(",");
                 String projectName = InputArgs[0];
 				String minMark = InputArgs[1];
@@ -66,9 +66,9 @@ public class AgentsLoader extends Agent {
 				String NeedAbiture = InputArgs[3];
 				
                 args = new Object[] { minMark, Reyting, NeedAbiture };
-                //System.out.println("Создание специальности");
+                //System.out.println("Создание gпрограммиста");
                 return getContainerController()
-					.createNewAgent(projectName, "SpecialtyAgent", args);
+					.createNewAgent(projectName, "ProgrammerAgent", args);
 
             default:
                 return null;
