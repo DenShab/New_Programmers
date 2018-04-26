@@ -24,7 +24,7 @@ public class TaskAgent extends Agent {
         if (args != null && args.length > 0) {
             mark = Integer.parseInt((String) args[0]);
 			// Напечатать приветственное сообщение
-			String StartMes = "Агент-абитуриент " + getAID().getName() + "с " + " готов поступать в ВУЗ.\n";
+			String StartMes = "Агент-задача" + getAID().getName() + "с " + " готова к выполнению.\n";
 			StartMes += "\tимеет " + mark + " баллов";
             System.out.println( StartMes );
             // Add a TickerBehaviour that schedules a request to specialty agents every 5 seconds
@@ -34,15 +34,15 @@ public class TaskAgent extends Agent {
 			public void action(){
                     if (!isParticipated) {
                         System.out.println(getAID().getName() + 
-							" ищет специальность с проходным баллом ниже " + mark);
+							" ищет программиста с проходным баллом ниже " + mark);
                         // Update the list of specialty agents
                         DFAgentDescription template = new DFAgentDescription();
                         ServiceDescription sd = new ServiceDescription();
-                        sd.setType("Specialty");
+                        sd.setType("Programmer");
                         template.addServices(sd);
                         try {
                             DFAgentDescription[] result = DFService.search(myAgent, template);
-                            String Specialties = "Абитуриент " + getAID().getName() + " нашел следующие специальности:\n";
+                            String Specialties = "Задача " + getAID().getName() + " нашла следующих программистов:\n";
                             Specialties += "(\n";
 							specialtyAgents = new AID[result.length];
                             for (int i = 0; i < result.length; ++i) {
@@ -63,7 +63,7 @@ public class TaskAgent extends Agent {
 
         } else {
             // Make the agent terminate
-            System.out.println("Агент-абитуриент отказался от " + getAID().getName() + "");
+            System.out.println("Агент-задача не может быть выполненна (?) " + getAID().getName() + "");
             doDelete();
         }
     }
@@ -74,7 +74,7 @@ public class TaskAgent extends Agent {
             MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.REFUSE);
             ACLMessage msg = myAgent.receive(mt);
             if (msg != null) {
-                System.out.println("Агент-абитуриент " + getAID().getName() + " вновь ищет специальность");
+                System.out.println("Агент-задача " + getAID().getName() + " вновь готова к выполению");
                 isParticipated = false;
             }
             block();
@@ -84,7 +84,7 @@ public class TaskAgent extends Agent {
     // Здесь выполняется удаление агента из списков
     protected void takeDown() {
         // Printout a dismissal message
-        System.out.println("Агент-абитуриент " + getAID().getName() + " удален.");
+        System.out.println("Агент-задача " + getAID().getName() + " удален.");
     }
 	
     private class RequestPerformer extends Behaviour {
@@ -123,7 +123,7 @@ public class TaskAgent extends Agent {
                     if (reply != null) {
                         //Специальность удовлетворяет этого абитуриента
                         if (reply.getPerformative() == ACLMessage.ACCEPT_PROPOSAL) {
-                            System.out.println("Агент-абитуриент " + getAID().getName() + " участвует в вступительном конкурсе " + reply.getSender().getName());
+                            System.out.println("Агент-задача " + getAID().getName() + " в рассмотрении " + reply.getSender().getName());
                             // Это рейтинг
                             int price = Integer.parseInt(reply.getContent());
 							specialty.add(reply.getSender());
@@ -187,12 +187,12 @@ public class TaskAgent extends Agent {
                         // Получен ответ
                         if (reply.getPerformative() == ACLMessage.INFORM) {
                             // поиск выполнен успешно. Мы можем прекратить
-                            System.out.println(getAID().getName() + "  успешно поступил на " + reply.getSender().getName()+"\n" + 
+                            System.out.println(getAID().getName() + " взята на выполение " + reply.getSender().getName()+"\n" + 
 							"\tБаллы = " + mark.toString() + "; Рейтинг специальности = " + bestOffer);
                             isParticipated = true;
 							step = 4;
                         } else {
-                            System.out.println(getAID().getName() + " не поступил на " + reply.getSender().getName());
+                            System.out.println(getAID().getName() + " не взята на выполение " + reply.getSender().getName());
 							step = 2;
 							index++;
                         }
