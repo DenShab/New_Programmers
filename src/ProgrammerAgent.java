@@ -34,10 +34,10 @@ public class ProgrammerAgent extends Agent {
             price = Integer.parseInt((String) args[1]);
             abitursNumber = Integer.parseInt((String) args[2]);
         }
-        System.out.println("Специальность " + GetAgentName() + " готова к приему абитуриентов" + "\n" +
-        "Проходной балл " + minmark + "\n" +
-        "Рейтинг специальности " + price + "\n" +
-        "Число мест на специальности " + abitursNumber);
+        System.out.println("Агент-Программист " + GetAgentName() + " готова к выполению задач" + "\n" +
+        "Свойство 1 " + minmark + "\n" +
+        "Свойство 2 " + price + "\n" +
+        "Свойство 3 " + abitursNumber);
         // Register the project-participating service in the yellow pages
         DFAgentDescription dfd = new DFAgentDescription();
         dfd.setName(getAID());
@@ -65,7 +65,7 @@ public class ProgrammerAgent extends Agent {
             //fe.printStackTrace();
         }
         // вывод сообщения об завершении
-        System.out.println("Специальность-агент " + getAID().getName() + " завершил работу");
+        System.out.println("Агент-Программист  " + getAID().getName() + " завершил работу");
         doDelete();
     }
     private class RequestsServer extends CyclicBehaviour {
@@ -100,10 +100,10 @@ public class ProgrammerAgent extends Agent {
                             }
 						}
                         if (worst_mark < mark) {
-							System.out.println("Был найден абитуриент получше" + abiturs.size());
+							System.out.println("Была найдена задача получше" + abiturs.size());
                             ACLMessage refuse = new ACLMessage(ACLMessage.REFUSE);
                             refuse.addReceiver((AID) abiturs.get(worst_prog));
-                            refuse.setContent("Был найден абитуриент получше");
+                            refuse.setContent("Была найдена задача получше");
                             myAgent.send(refuse);
                             abiturs.remove(worst_prog);
                             abiturs_mark.remove(worst_prog);
@@ -117,13 +117,13 @@ public class ProgrammerAgent extends Agent {
                     } else {
 						System.out.println("false");
                         reply.setPerformative(ACLMessage.REJECT_PROPOSAL);
-                        reply.setContent("Были найдены все необходимые абитуриенты");
+                        reply.setContent("Были найдены все необходимые задачи");
                     }
                 } else {
 					System.out.println("The mark is too low.");
                     // The mark is too low.
                     reply.setPerformative(ACLMessage.REJECT_PROPOSAL);
-                    reply.setContent("Очень низкие баллы");
+                    reply.setContent("Очень низкие (свойства)");
                 }
                 myAgent.send(reply);
             } else {
@@ -149,8 +149,8 @@ public class ProgrammerAgent extends Agent {
                     String Participatedabiturs = "";
                     for (int i = 0; i < abiturs.size(); i++)
                         Participatedabiturs += "---" + ((AID) abiturs.get(i)).getName() + "\n";
-                    System.out.println("Абитуриенты: \n--" + Participatedabiturs.substring(2) 
-						+ "  поступили на специальность " + getAID().getName() + "\n");
+                    System.out.println("Задачи : \n--" + Participatedabiturs.substring(2) 
+						+ " приняты на выполнение " + getAID().getName() + "\n");
                 }
             } else {
                 block();
