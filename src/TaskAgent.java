@@ -11,7 +11,7 @@ import jade.domain.FIPAAgentManagement.SearchConstraints;
 import java.util.*;
 
 
-public class AbiturAgent extends Agent {
+public class TaskAgent extends Agent {
     // Mark of the Abitur
     private Integer mark;
     // The list of known Abitur agents
