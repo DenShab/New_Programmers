@@ -9,7 +9,7 @@ import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 import java.util.*;
 
-public class SpecialtyAgent extends Agent {
+public class ProgrammerAgent extends Agent {
     // Список участвующих абитуриентов
     private ArrayList abiturs;
     private ArrayList abiturs_mark;

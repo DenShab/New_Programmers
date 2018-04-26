@@ -9,3 +9,6 @@
 /TaskAgent$GetSpecialtyResponse.class
 /TaskAgent$RequestPerformer.class
 /TaskAgent.class
+/ProgrammerAgent$ApplyOffersServer.class
+/ProgrammerAgent$RequestsServer.class
+/ProgrammerAgent.class
