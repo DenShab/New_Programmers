@@ -31,6 +31,7 @@ public class ProgrammerAgent extends Agent {
         abiturs = new ArrayList();
         abiturs_mark = new ArrayList();
         Object[] args = getArguments();
+        Proger pro=(Proger) getArguments()[0];
         if (args != null && args.length >= 3) {
             minmark = Integer.parseInt((String) args[0]);
             price = Integer.parseInt((String) args[1]);

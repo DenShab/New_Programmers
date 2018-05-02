@@ -21,19 +21,31 @@ public class TaskAgent extends Agent {
 	 */
 	private static final long serialVersionUID = 6047118901531807987L;
 	// Mark of the Abitur
-    private Integer mark;
+    private Integer time;
+    private String mark="";
+    private boolean[] comp;
     // The list of known Abitur agents
     private AID[] specialtyAgents;
     private boolean isParticipated = false;
     // Put agent initializations here
     protected void setup() {
         // Получает начальные аргументы
-        Object[] args = getArguments();
-        if (args != null && args.length > 0) {
-            mark = Integer.parseInt((String) args[0]);
+        MyTask[] tasks = (MyTask[]) getArguments();
+        if (tasks != null && tasks.length > 0) {
+        	MyTask task =tasks[0];
+        	time = task.time;
+        	comp=task.competences;
+        	
 			// Напечатать приветственное сообщение
 			String StartMes = "Агент-задача" + getAID().getName() + "с " + " готова к выполнению.\n";
-			StartMes += "\tимеет " + mark + " баллов";
+			StartMes += "\tвыполняется за " + time + " часов.\n Для выполнения требуются компетенции:";
+			 mark+=time.toString();
+			for(int i=0;i<comp.length;i++)
+			{
+				mark+=","+Boolean.toString(comp[i]);
+				if(comp[i])
+					StartMes += "\t " + i;
+			}
             System.out.println( StartMes );
             // Add a TickerBehaviour that schedules a request to specialty agents every 5 seconds
             addBehaviour(new OneShotBehaviour(this) {
@@ -42,7 +54,7 @@ public class TaskAgent extends Agent {
 			public void action(){
                     if (!isParticipated) {
                         System.out.println(getAID().getName() + 
-							" ищет программиста с проходным баллом ниже " + mark);
+							" ищет программиста с проходными компетенциями ");
                         // Update the list of specialty agents
                         DFAgentDescription template = new DFAgentDescription();
                         ServiceDescription sd = new ServiceDescription();

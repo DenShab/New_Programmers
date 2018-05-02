@@ -49,32 +49,21 @@ public class AgentsLoader extends Agent {
     
     private AgentController parseAgent(String s) throws StaleProxyException {
         String[] splitted = s.split(":");
-        String[] InputArgs;
-		Object[] args;
         switch (splitted[0]) {
-            case "Task":        
-				InputArgs = splitted[1].split(",");
-                String agentName = InputArgs[0];
-                String Mark = InputArgs[1];
-                int[] competences=new int[] {0};
-
-                args = new Object[] { Mark };
+            case "Task":      
+            	MyTask task=new MyTask(splitted[1]);
+            	MyTask[] tasks =new MyTask[] {task};
                 //System.out.println("Создание задачи"+","+agentName+","+Mark);
                 jade.wrapper.AgentContainer c;
                 c=getContainerController();
-                return c.createNewAgent(agentName, "MyAgents.TaskAgent", args);
+                return c.createNewAgent(task.name, "MyAgents.TaskAgent", tasks);
 
             case "Programmer":
-				InputArgs = splitted[1].split(",");
-                String projectName = InputArgs[0];
-				String minMark = InputArgs[1];
-				String Reyting = InputArgs[2];
-				String NeedAbiture = InputArgs[3];
-				
-                args = new Object[] { minMark, Reyting, NeedAbiture };
+            	Proger pro=new Proger(splitted[1]);
+            	Proger[] pros=new Proger[] {pro};
                 //System.out.println("Создание программиста");
                 return getContainerController()
-					.createNewAgent(projectName, "MyAgents.ProgrammerAgent", args);
+					.createNewAgent(pro.name, "MyAgents.ProgrammerAgent", pros);
 
             default:
                 return null;

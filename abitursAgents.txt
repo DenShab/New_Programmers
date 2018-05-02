@@ -1,10 +1,6 @@
-Task:Abitur1,40
-Task:Abitur2,65
-Task:Abitur3,19
-Task:Abitur4,100
-Task:Abitur5,31
-Task:Abitur6,24
-Task:Abitur7,54
-Task:Abitur8,71
-Task:Abitur9,31
-Task:Abitur10,80
+Task:Name-Task1;Competences-false,false,false;Time-1
+Task:Name-Task2;Competences-false,false,true;Time-2
+Task:Name-Task3;Competences-false,true,false;Time-3
+Task:Name-Task4;Competences-false,true,true;Time-4
+Task:Name-Task5;Competences-true,false,false;Time-5
+Task:Name-Task6;Competences-true,false,true;Time-6
