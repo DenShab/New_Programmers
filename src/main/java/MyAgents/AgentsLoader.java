@@ -56,6 +56,7 @@ public class AgentsLoader extends Agent {
 				InputArgs = splitted[1].split(",");
                 String agentName = InputArgs[0];
                 String Mark = InputArgs[1];
+                int[] competences=new int[] {0};
 
                 args = new Object[] { Mark };
                 //System.out.println("Создание задачи"+","+agentName+","+Mark);
