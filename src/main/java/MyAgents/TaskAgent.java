@@ -1,20 +1,26 @@
 package MyAgents;
 
-import jade.core.Agent;
+import java.util.ArrayList;
+
 import jade.core.AID;
-import jade.core.behaviours.*;
-import jade.lang.acl.ACLMessage;
-import jade.lang.acl.MessageTemplate;
+import jade.core.Agent;
+import jade.core.behaviours.Behaviour;
+import jade.core.behaviours.CyclicBehaviour;
+import jade.core.behaviours.OneShotBehaviour;
 import jade.domain.DFService;
 import jade.domain.FIPAException;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
-import jade.domain.FIPAAgentManagement.SearchConstraints;
-import java.util.*;
+import jade.lang.acl.ACLMessage;
+import jade.lang.acl.MessageTemplate;
 
 
 public class TaskAgent extends Agent {
-    // Mark of the Abitur
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6047118901531807987L;
+	// Mark of the Abitur
     private Integer mark;
     // The list of known Abitur agents
     private AID[] specialtyAgents;

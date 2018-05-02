@@ -1,4 +1,4 @@
-specialty:specialty1,72,200,2
-specialty:specialty2,81,300,1
-specialty:specialty3,31,150,3
-specialty:Army,0,0,3
+Programmer:specialty1,72,200,2
+Programmer:specialty2,81,300,1
+Programmer:specialty3,31,150,3
+Programmer:Army,0,0,3

@@ -44,7 +44,7 @@ public class ProgrammerAgent extends Agent {
         DFAgentDescription dfd = new DFAgentDescription();
         dfd.setName(getAID());
         ServiceDescription sd = new ServiceDescription();
-        sd.setType("Specialty");
+        sd.setType("Programmer");
         sd.setName("JADE-proj-prog");
         dfd.addServices(sd);
         try {

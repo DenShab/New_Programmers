@@ -1,12 +1,14 @@
 package MyAgents;
 
 import jade.core.Agent;
+import jade.core.AgentContainer;
 import jade.wrapper.AgentController;
 import jade.wrapper.StaleProxyException;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import MyAgents.TaskAgent;
 
 public class AgentsLoader extends Agent {
 
@@ -56,9 +58,10 @@ public class AgentsLoader extends Agent {
                 String Mark = InputArgs[1];
 
                 args = new Object[] { Mark };
-                //System.out.println("Создание адачи"+","+agentName+","+Mark);
-                return getContainerController()
-					.createNewAgent(agentName, "TaskAgent", args);
+                //System.out.println("Создание задачи"+","+agentName+","+Mark);
+                jade.wrapper.AgentContainer c;
+                c=getContainerController();
+                return c.createNewAgent(agentName, "MyAgents.TaskAgent", args);
 
             case "Programmer":
 				InputArgs = splitted[1].split(",");
@@ -68,9 +71,9 @@ public class AgentsLoader extends Agent {
 				String NeedAbiture = InputArgs[3];
 				
                 args = new Object[] { minMark, Reyting, NeedAbiture };
-                //System.out.println("Создание gпрограммиста");
+                //System.out.println("Создание программиста");
                 return getContainerController()
-					.createNewAgent(projectName, "ProgrammerAgent", args);
+					.createNewAgent(projectName, "MyAgents.ProgrammerAgent", args);
 
             default:
                 return null;

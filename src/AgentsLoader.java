@@ -68,7 +68,7 @@ public class AgentsLoader extends Agent {
                 args = new Object[] { minMark, Reyting, NeedAbiture };
                 //System.out.println("Создание gпрограммиста");
                 return getContainerController()
-					.createNewAgent(projectName, "ProgrammerAgent", args);
+					.createNewAgent(projectName, "MyAgents.ProgrammerAgent", args);
 
             default:
                 return null;
