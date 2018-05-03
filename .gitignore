@@ -1,2 +1,6 @@
+<<<<<<< HEAD
 *.xml
 Example.iml
+=======
+/target/
+>>>>>>> origin/master

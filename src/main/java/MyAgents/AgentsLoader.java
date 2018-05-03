@@ -1,10 +1,14 @@
+package MyAgents;
+
 import jade.core.Agent;
+import jade.core.AgentContainer;
 import jade.wrapper.AgentController;
 import jade.wrapper.StaleProxyException;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import MyAgents.TaskAgent;
 
 public class AgentsLoader extends Agent {
 
@@ -45,30 +49,21 @@ public class AgentsLoader extends Agent {
     
     private AgentController parseAgent(String s) throws StaleProxyException {
         String[] splitted = s.split(":");
-        String[] InputArgs;
-		Object[] args;
         switch (splitted[0]) {
-            case "Task":        
-				InputArgs = splitted[1].split(",");
-                String agentName = InputArgs[0];
-                String Mark = InputArgs[1];
-
-                args = new Object[] { Mark };
-                //System.out.println("Создание адачи"+","+agentName+","+Mark);
-                return getContainerController()
-					.createNewAgent(agentName, "TaskAgent", args);
+            case "Task":      
+            	MyTask task=new MyTask(splitted[1]);
+            	MyTask[] tasks =new MyTask[] {task};
+                //System.out.println("Создание задачи"+","+agentName+","+Mark);
+                jade.wrapper.AgentContainer c;
+                c=getContainerController();
+                return c.createNewAgent(task.name, "MyAgents.TaskAgent", tasks);
 
             case "Programmer":
-				InputArgs = splitted[1].split(",");
-                String projectName = InputArgs[0];
-				String minMark = InputArgs[1];
-				String Reyting = InputArgs[2];
-				String NeedAbiture = InputArgs[3];
-				
-                args = new Object[] { minMark, Reyting, NeedAbiture };
-                //System.out.println("Создание gпрограммиста");
+            	Proger pro=new Proger(splitted[1]);
+            	Proger[] pros=new Proger[] {pro};
+                //System.out.println("Создание программиста");
                 return getContainerController()
-					.createNewAgent(projectName, "ProgrammerAgent", args);
+					.createNewAgent(pro.name, "MyAgents.ProgrammerAgent", pros);
 
             default:
                 return null;

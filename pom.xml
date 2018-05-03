@@ -3,22 +3,21 @@
   <groupId>Example</groupId>
   <artifactId>Example</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-    <properties>
+   <properties>
+  <maven.compiler.source>1.7</maven.compiler.source>
+    <maven.compiler.target>1.7</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
   </properties>
-  <build>
-    <sourceDirectory>src</sourceDirectory>
-    <plugins>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.7.0</version>
-        <configuration>
-          <release>9</release>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+  
   <dependencies>
+  <!-- https://mvnrepository.com/artifact/junit/junit -->
+<dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.12</version>
+    <scope>test</scope>
+</dependency>
   
     <dependency>
       <groupId>junit</groupId>
@@ -41,4 +40,32 @@
 
     
   </dependencies>
+  
+  <build>
+  <pluginManagement>
+   <plugins>
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-toolchains-plugin</artifactId>
+    <version>1.0</version>
+    <executions>
+      <execution>
+        <phase>validate</phase>
+        <goals>
+          <goal>toolchain</goal>
+            </goals>
+      </execution>
+    </executions>
+    <configuration>
+      <toolchains>
+        <jdk>
+          <version>1.7</version>
+          <vendor>sun</vendor>
+        </jdk>
+      </toolchains>
+    </configuration>
+  </plugin>
+  </plugins>
+  </pluginManagement>
+  </build>
 </project>

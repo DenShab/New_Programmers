@@ -1,3 +1,5 @@
+package MyAgents;
+
 import jade.core.Agent;
 import jade.core.AID;
 import jade.core.behaviours.*;
@@ -29,6 +31,7 @@ public class ProgrammerAgent extends Agent {
         abiturs = new ArrayList();
         abiturs_mark = new ArrayList();
         Object[] args = getArguments();
+        Proger pro=(Proger) getArguments()[0];
         if (args != null && args.length >= 3) {
             minmark = Integer.parseInt((String) args[0]);
             price = Integer.parseInt((String) args[1]);
@@ -42,7 +45,7 @@ public class ProgrammerAgent extends Agent {
         DFAgentDescription dfd = new DFAgentDescription();
         dfd.setName(getAID());
         ServiceDescription sd = new ServiceDescription();
-        sd.setType("Specialty");
+        sd.setType("Programmer");
         sd.setName("JADE-proj-prog");
         dfd.addServices(sd);
         try {
