@@ -1,1 +1,1 @@
-http://Denis:7778/acc
+http://WM:7778/acc

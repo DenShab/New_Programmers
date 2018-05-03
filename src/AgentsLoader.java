@@ -10,13 +10,13 @@ public class AgentsLoader extends Agent {
 
     @Override
     protected void setup() {
-    	System.err.println("START !");
+    	System.out.println("START !21312312344!!!!!1");
         Object[] args = getArguments();
         if(args.length != 1) {
             System.err.println("Please specify input file!");
             return;
         }
-		//System.out.println("Загрузка данных: \n");
+		System.out.println("Загрузка данных: \n");
         BufferedReader reader = null;
         int lineCount = 0;
         try {

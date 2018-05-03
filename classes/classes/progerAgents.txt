@@ -1,0 +1,4 @@
+Programmer:proger1,72,200,2
+Programmer:proger2,81,300,1
+Programmer:proger3,31,150,3
+Programmer:Army,0,0,3
