@@ -1,5 +1,8 @@
 Задачи : 
 ---Task2@192.168.0.104:1099/JADE
+---Task6@192.168.0.104:1099/JADE
 ---Task5@192.168.0.104:1099/JADE
+
  приняты на выполнение Programmer1@192.168.0.104:1099/JADE
-Programmer1 ; Task1 Task5 Task5 Task5 Task5 Task5 Task5 Task5 ;
+Programmer1 ; Task2 Task2 Task6 Task6 Task6 Task6 Task6 Task6 ;
+-6

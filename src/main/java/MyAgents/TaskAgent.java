@@ -209,7 +209,7 @@ public class TaskAgent extends Agent {
                         if (reply.getPerformative() == ACLMessage.INFORM) {
                             // поиск выполнен успешно. Мы можем прекратить
                             System.out.println(getAID().getName() + " взята на выполение " + reply.getSender().getName()+"\n" + 
-							"\tБаллы = " + mark.toString() + "; Рейтинг специальности = " + bestOffer);
+							"\tВремя = " + mark.toString() );
                             isParticipated = true;
 							step = 4;
                         } else {
@@ -226,7 +226,7 @@ public class TaskAgent extends Agent {
         }
         public boolean done() {
             if (step == 2 && bestSpecialty == null) {
-                System.out.println("Попытка не удалась: Количество баллов, равное " + mark + " недостаточно для поступления");
+                System.out.println("Попытка не удалась: время " + mark + " слишком большое");
             }
             return ((step == 2 && bestSpecialty == null) || step == 4);
         }
