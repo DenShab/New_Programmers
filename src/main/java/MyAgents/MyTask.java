@@ -7,11 +7,11 @@ public class MyTask {
 	public String name;
 	public boolean[] competences=new boolean[] {false,false,false};
 
-	public MyTask(String name, boolean[] competences)
+	public MyTask(String name, boolean[] competences,int time)
     {
         this.name = name;
         this.competences = competences;
-        
+        this.time=time;
     }
     
     public MyTask(String string) {
@@ -28,4 +28,13 @@ public class MyTask {
     	this.time=Integer.parseInt((param[2].split("-"))[1]);
        
 	}
+    @Override
+    public String toString()
+    {
+    	String sch="";
+    	for(int i=0;i<this.competences.length;i++)
+    		sch=sch+this.competences[i]+" , ";
+        return name + " ; " + sch + " ; "+ this.time;
+    }
+    
 }

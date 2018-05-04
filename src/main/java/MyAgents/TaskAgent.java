@@ -39,7 +39,8 @@ public class TaskAgent extends Agent {
 			// Напечатать приветственное сообщение
 			String StartMes = "Агент-задача" + getAID().getName() + "с " + " готова к выполнению.\n";
 			StartMes += "\tвыполняется за " + time + " часов.\n Для выполнения требуются компетенции:";
-			 mark+=time.toString();
+			mark+=task.name+",";
+			mark+=time.toString();
 			for(int i=0;i<comp.length;i++)
 			{
 				mark+=","+Boolean.toString(comp[i]);
@@ -145,7 +146,7 @@ public class TaskAgent extends Agent {
                         if (reply.getPerformative() == ACLMessage.ACCEPT_PROPOSAL) {
                             System.out.println("Агент-задача " + getAID().getName() + " в рассмотрении " + reply.getSender().getName());
                             // Это рейтинг
-                            int price = Integer.parseInt(reply.getContent());
+                            int price = 0;//Integer.parseInt(reply.getContent());
 							specialty.add(reply.getSender());
 							specialtyOffer.add(price);
                             //if (bestSpecialty == null || price >= bestOffer) {

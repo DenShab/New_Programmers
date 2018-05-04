@@ -9,6 +9,16 @@ public class Proger {
 	public String name;
 	public String[] schedule=new String[] {"","","","","","","",""};
     public int[] competences=new int[n];
+	public boolean checkCompetence(boolean[] taskComp) 
+	{
+		boolean chek = true;
+		for(int i=0;i<taskComp.length;i++)
+		{
+			if(taskComp[i]&&competences[i]<=0)
+					chek=false;
+		}
+		return  chek;
+	}
     
     public Proger(String name, int[] competences)
     {
@@ -122,9 +132,9 @@ public class Proger {
     	String sch="";
     	for(int i=0;i<this.schedule.length;i++)
     		if(this.schedule[i]!="")
-    		sch=sch+this.schedule[i]+"	";
-    		else sch=sch+"-		";
-        return name + ";	" + sch + ";" ;
+    		sch=sch+this.schedule[i]+" ";
+    		else sch=sch+" - ";
+        return name + " ; " + sch + ";" ;
     }
   /*  public Proger(String str)
     {

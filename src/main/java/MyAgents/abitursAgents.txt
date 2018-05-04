@@ -1,0 +1,6 @@
+Task:Name-Task1;Competences-false,false,false;Time-1
+Task:Name-Task2;Competences-false,false,true;Time-2
+Task:Name-Task3;Competences-false,true,false;Time-3
+Task:Name-Task4;Competences-false,true,true;Time-4
+Task:Name-Task5;Competences-true,false,false;Time-5
+Task:Name-Task6;Competences-true,false,true;Time-6

@@ -9,18 +9,24 @@ import jade.domain.DFService;
 import jade.domain.FIPAException;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 public class ProgrammerAgent extends Agent {
     // Список участвующих абитуриентов
     private ArrayList abiturs;
     private ArrayList abiturs_mark;
+    private ArrayList<MyTask> tasks;
+    private Proger pro = null;
     //мнимальное число баллов, для поступления на специальность
-    private int minmark;
+   // private int minmark;
 	//рейтинг специальности
-    private int price;
+  //  private int price;
     //число вакантных мест на специальности
-    private int abitursNumber;
+  //  private int abitursNumber;
 
 	protected String GetAgentName()
 	{
@@ -30,17 +36,17 @@ public class ProgrammerAgent extends Agent {
     protected void setup() {
         abiturs = new ArrayList();
         abiturs_mark = new ArrayList();
+        tasks=new ArrayList<MyTask>();
         Object[] args = getArguments();
-        Proger pro=(Proger) getArguments()[0];
-        if (args != null && args.length >= 3) {
-            minmark = Integer.parseInt((String) args[0]);
-            price = Integer.parseInt((String) args[1]);
-            abitursNumber = Integer.parseInt((String) args[2]);
+        if (args != null && args.length >= 1) {
+            pro=(Proger) getArguments()[0];
+          //  minmark = Integer.parseInt((String) args[0]);
+           // price = Integer.parseInt((String) args[1]);
+           // abitursNumber = Integer.parseInt((String) args[2]);
         }
         System.out.println("Агент-Программист " + GetAgentName() + " готов к выполению задач" + "\n" +
-        "Свойство 1 " + minmark + "\n" +
-        "Свойство 2 " + price + "\n" +
-        "Свойство 3 " + abitursNumber);
+        "Компетенции: "+ pro.competences[0]+ ", " + pro.competences[1]+ ", "+pro.competences[2]+ "\n" +
+        "Свободное время " + pro.freeTimeH());
         // Register the project-participating service in the yellow pages
         DFAgentDescription dfd = new DFAgentDescription();
         dfd.setName(getAID());
@@ -83,40 +89,61 @@ public class ProgrammerAgent extends Agent {
 					return;
 				}
                 // PROPOSE Message received. Process it
-                int mark = Integer.parseInt(msg.getContent());
+				//в меседже получаем задачу
+				String[] string=(msg.getContent()).split(",");
+				String name =string[0];
+				int time=Integer.parseInt(string[1]);
+				boolean[] comp=new boolean[] {Boolean.parseBoolean(string[2]),Boolean.parseBoolean(string[3]),Boolean.parseBoolean(string[4])};
+               // int mark = Integer.parseInt(msg.getContent());
+				MyTask mytask=new MyTask(name, comp, time);
                 ACLMessage reply = msg.createReply();
-				System.out.println("if (mark >= minmark) {");
-                //Check if mark is OK for the project
-                if (mark >= minmark) {
+                System.out.println(pro.name+" и задача " +msg.getContent() );
+				System.out.println( " если компетенции подходят {");
+                //проверяем подходят ли компетенции
+                if (pro.checkCompetence(comp)) {
                     boolean accept_flag = true;
 					System.out.println("if (abiturs.size() == abitursNumber) {");
-                    if (abiturs.size() == abitursNumber) {
+                  //  if (abiturs.size() == abitursNumber) {
+                    	if (pro.freeTimeH()<pro.getTime(mytask.time)) {
                         int worst_prog = 0;
-                        int worst_mark = (Integer) abiturs_mark.get(0);
-                        for (int i = 1; i < abiturs_mark.size(); i++){
-							System.out.println("if (((Integer) abiturs_mark.get(i)) < worst_mark) {");
-                            if (((Integer) abiturs_mark.get(i)) < worst_mark) {
-								System.out.println(">> " + i + " >> " + (Integer) abiturs_mark.get(i));
-                                worst_mark = (Integer) abiturs_mark.get(i);
+                       // int worst_mark = (Integer) abiturs_mark.get(0);
+                        MyTask worst_task=tasks.get(0);
+                     //   for (int i = 1; i < abiturs_mark.size(); i++){
+                        	for (int i = 1; i < tasks.size(); i++){
+							System.out.println("if  tasks.get(i).time < worst_task.time {");
+                           // if (((Integer) abiturs_mark.get(i)) < worst_mark) {
+							if ((tasks.get(i)).time > worst_task.time) {
+								System.out.println(">> " + i + " >> " + (tasks.get(i)).toString());
+								worst_task=tasks.get(i);
+								//worst_mark = (Integer) abiturs_mark.get(i);
                                 worst_prog = i;
                                 break;
                             }
 						}
-                        if (worst_mark < mark) {
-							System.out.println("Была найдена задача получше" + abiturs.size());
+                        //if (worst_mark < mark) {
+                        	//worst_task>mytask
+                        	if (worst_task.time > mytask.time) {
+                        	
+							//System.out.println("Была найдена задача получше" + abiturs.size());
+                        		System.out.println("Была найдена задача получше" + tasks.size());
                             ACLMessage refuse = new ACLMessage(ACLMessage.REFUSE);
-                            refuse.addReceiver((AID) abiturs.get(worst_prog));
+                           refuse.addReceiver((AID) abiturs.get(worst_prog));
+                           // refuse.addReceiver((AID) tasks.get(worst_prog));
                             refuse.setContent("Была найдена задача получше");
                             myAgent.send(refuse);
+                            tasks.remove(worst_prog);
+                            pro.delTask(worst_task);
+                            pro.addTask(mytask);
                             abiturs.remove(worst_prog);
-                            abiturs_mark.remove(worst_prog);
+                           // abiturs_mark.remove(worst_prog);
                         } else
                             accept_flag = false;
                     }
                     if (accept_flag) {
 						System.out.println("True");
+						
                         reply.setPerformative(ACLMessage.ACCEPT_PROPOSAL);
-                        reply.setContent(String.valueOf(price));
+                       // reply.setContent(String.valueOf(price));
                     } else {
 						System.out.println("false");
                         reply.setPerformative(ACLMessage.REJECT_PROPOSAL);
@@ -142,19 +169,51 @@ public class ProgrammerAgent extends Agent {
                 // ACCEPT_PROPOSAL Message received. Process it
                 ACLMessage reply = msg.createReply();
                 if (!abiturs.contains(msg.getSender())) {
+                	//MyTask mytask=new MyTask(msg.getSender());
+                	//(msg.getSender()).split(";");
+                	String[] string=(msg.getContent()).split(",");
+    				String name =string[0];
+    				int time=Integer.parseInt(string[1]);
+    				boolean[] comp=new boolean[] {Boolean.parseBoolean(string[2]),Boolean.parseBoolean(string[3]),Boolean.parseBoolean(string[4])};
+    				MyTask mytask=new MyTask(name, comp, time);
+    				tasks.add(mytask);
                     abiturs.add(msg.getSender());
-                    abiturs_mark.add(Integer.parseInt(msg.getContent()));
+                    pro.addTask(mytask);
+                    //abiturs.get(0);
+                    System.out.println(pro.toString());
+                   // abiturs_mark.add(Integer.parseInt((msg.getContent().split(","))[0]));
+                    
                 }
                 reply.setContent("");
                 reply.setPerformative(ACLMessage.INFORM);
                 myAgent.send(reply);
-                if (abiturs.size() == abitursNumber) {
+               // if (abiturs.size() == abitursNumber) {
+                	 if (pro.freeTimeH() == 0) {
                     String Participatedabiturs = "";
                     for (int i = 0; i < abiturs.size(); i++)
                         Participatedabiturs += "---" + ((AID) abiturs.get(i)).getName() + "\n";
                     System.out.println("Задачи : \n--" + Participatedabiturs.substring(2) 
 						+ " приняты на выполнение " + getAID().getName() + "\n");
-                }
+                    Participatedabiturs ="Задачи : \n--" + Participatedabiturs.substring(2) 
+					+ " приняты на выполнение " + getAID().getName() + "\n"+
+					pro.toString();
+                    BufferedWriter bw = null;
+					try {
+						bw = new BufferedWriter(new FileWriter(pro.name+".txt",false));
+						
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+                   
+                    try {
+						bw.write(Participatedabiturs);
+						 bw.close();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}}
+                	
             } else {
                 block();
             }
