@@ -106,7 +106,7 @@ public class ProgrammerAgent extends Agent {
 					System.out.println("if (abiturs.size() == abitursNumber) {");
                   //  if (abiturs.size() == abitursNumber) {
                     //	if (pro.freeTimeH()<pro.getTime(mytask.time)) {
-					if (Timer<pro.getTime(mytask.time)) {	
+					if (Timer<pro.getTime(mytask.time)||pro.freeTimeH()<pro.getTime(mytask.time) ) {	
 					//Timer
                         int worst_prog = 0;
                        // int worst_mark = (Integer) abiturs_mark.get(0);
@@ -128,7 +128,7 @@ public class ProgrammerAgent extends Agent {
                         	if (worst_task.time > mytask.time) {
                         	
 							//System.out.println("Была найдена задача получше" + abiturs.size());
-                        		System.out.println("Была найдена задача получше" + tasks.size());
+                        		System.out.println("Была найдена задача получше (" + worst_task.name+" хуже "+mytask.name);
                             ACLMessage refuse = new ACLMessage(ACLMessage.REFUSE);
                            refuse.addReceiver((AID) abiturs.get(worst_prog));
                            // refuse.addReceiver((AID) tasks.get(worst_prog));
@@ -138,8 +138,9 @@ public class ProgrammerAgent extends Agent {
                             
                            // pro.delTask(worst_task);
                             //ro.addTask(mytask);
-                            Timer=Timer-pro.getTime(worst_task.time);
+                            Timer=Timer+pro.getTime(worst_task.time);
                             abiturs.remove(worst_prog);
+                          //  msgs.remove(worst_prog);
                            // abiturs_mark.remove(worst_prog);
                         } else
                             accept_flag = false;
@@ -166,10 +167,12 @@ public class ProgrammerAgent extends Agent {
             }
         }
     } // End of inner class RequestsServer
+ //   ArrayList<ACLMessage> msgs;
     private class ApplyOffersServer extends CyclicBehaviour {
         public void action() {
             MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.ACCEPT_PROPOSAL);
             ACLMessage msg = myAgent.receive(mt);
+           
             if (msg != null) {
                 // ACCEPT_PROPOSAL Message received. Process it
                 ACLMessage reply = msg.createReply();
@@ -183,7 +186,8 @@ public class ProgrammerAgent extends Agent {
     				MyTask mytask=new MyTask(name, comp, time);
     				tasks.add(mytask);
                     abiturs.add(msg.getSender());
-                    Timer=Timer+pro.getTime(mytask.time);
+ //                   msgs.add(msg);
+                    Timer=Timer-pro.getTime(mytask.time);
                     //abiturs.get(0);
                     System.out.println(pro.toString());
                    // abiturs_mark.add(Integer.parseInt((msg.getContent().split(","))[0]));
@@ -191,16 +195,21 @@ public class ProgrammerAgent extends Agent {
                 }
                 reply.setContent("");
                 reply.setPerformative(ACLMessage.INFORM);
-                myAgent.send(reply);
+                
+              //  myAgent.send(reply);
                 int T=8;
                // if (abiturs.size() == abitursNumber) {
                 for (int i = 0; i < abiturs.size(); i++) {
                 	T-=pro.getTime(tasks.get(i).time);
                 	}
                 	 //if (pro.freeTimeH() <=4) {
-                if (T <=1) {
+                if (T <=1&&T >-1) {
+                	myAgent.send(reply);
+                	
+                	pro.delAllTask();
                     String Participatedabiturs = "";
                     for (int i = 0; i < abiturs.size(); i++) {
+                    	//((Agent) msgs.get(i)).send(reply);
                     	pro.addTask(tasks.get(i));
                         Participatedabiturs += "---" + ((AID) abiturs.get(i)).getName() + "\n";}
                     System.out.println("Задачи : \n--" + Participatedabiturs.substring(2) 
@@ -210,7 +219,7 @@ public class ProgrammerAgent extends Agent {
 					pro.toString()+"\n"+T;
                     BufferedWriter bw = null;
 					try {
-						bw = new BufferedWriter(new FileWriter(pro.name+".txt",false));
+						bw = new BufferedWriter(new FileWriter("out\\"+pro.name+".txt",false));
 						
 					} catch (IOException e) {
 						// TODO Auto-generated catch block

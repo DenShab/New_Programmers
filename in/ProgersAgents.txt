@@ -1,0 +1,4 @@
+Programmer:Name-Programmer1;Competences-50,0,50
+Programmer:Name-Programmer2;Competences-75,75,75
+Programmer:Name-Programmer3;Competences-100,100,100
+Programmer:Name-Programmer4;Competences-50,75,100

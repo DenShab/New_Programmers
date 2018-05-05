@@ -72,7 +72,10 @@ public class Proger {
     			break;
     	}
     	Arrays.sort(this.schedule);
-    	
+    	if(freetime.size()==0 || this.freeTimeH()<=0)
+    	{
+    		this.schedule[this.schedule.length-1]+=" ( "+task.name+","+this.getTime(task.time)+" ) ";
+    	}
     }
     public void replacTask(MyTask task1,MyTask task2)
     {
@@ -102,13 +105,21 @@ public class Proger {
     	}
     	Arrays.sort(this.schedule);
     }
+    public void delAllTask()
+    {
+    	for(int i=0;i<this.schedule.length;i++)
+    	{
+    			this.schedule[i]="";
+    	}
+    	Arrays.sort(this.schedule);
+    }
     
     public ArrayList<Integer>  freeTime()
     {
     	ArrayList<Integer> freeT = new ArrayList<Integer>();
     	for(int i=0;i<this.schedule.length;i++) 
     	{
-	    	if(Objects.equals(this.schedule[i],""))
+	    	if(this.schedule[i].equals(""))
 	    	{
 	    		freeT.add(i);
 	    	}

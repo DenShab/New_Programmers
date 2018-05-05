@@ -65,10 +65,13 @@ public class TaskAgent extends Agent {
                             DFAgentDescription[] result = DFService.search(myAgent, template);
                             String Specialties = "Задача " + getAID().getName() + " нашла следующих программистов:\n";
                             Specialties += "(\n";
+                            
 							specialtyAgents = new AID[result.length];
                             for (int i = 0; i < result.length; ++i) {
+                            	if(!"Очень низкие (свойства)".equals(specialtyAgents[i])) {
                                 specialtyAgents[i] = result[i].getName();
                                 Specialties += "\t" + specialtyAgents[i].getName() + "\n";
+                            	}
                             }
 							Specialties += ")";
 							if	(specialtyAgents.length > 0)
